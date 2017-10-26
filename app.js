@@ -8,6 +8,17 @@ var mongo = require('mongodb');
 var gestorBD = require("./modules/gestorBD.js");
 var crypto = require('crypto');
 var expressSession = require('express-session');
+var cors = require('cors');
+
+var corsOptions = {
+    origin: '*',
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204 
+}
+
+//Rutas/controladores por lógica
+require("./routes/rusers.js")(app, swig, gestorBD);  
+require("./routes/raccounts.js")(app, swig, gestorBD);
+require("./routes/rcards.js")(app, swig, gestorBD);
 
 //TODO: Reemplazar por puerto de heroku con su variable de sistema
 //app.set('port', process.env.PORT || 8081);
@@ -15,7 +26,9 @@ var expressSession = require('express-session');
 app.set('port', 8081);
 app.set('db','mongodb://localhost:27017/bancaonline');
 
-app.get('/', function (req, res) {
+app.set('cors', cors(corsOptions));
+
+app.get('/', app.get('cors'), function (req, res) {
 	var respuesta = swig.renderFile('views/home.html', {});
 	res.send(respuesta);
 })

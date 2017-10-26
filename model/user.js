@@ -2,7 +2,7 @@ let account = require("./account");
 
 module.exports = class User{
     constructor(id, name, surname, dni, phone, email){
-        this.id = id;
+        //this.id = id; lo crea mongo solo
         this.name = name;
         this.surname = surname;
         this.dni = dni;
