@@ -5,6 +5,7 @@ module.exports = {
 		this.mongo = mongo;
 		this.app = app;
     },
+    //Usuarios
     insertarUsuario: function (usuario, funcionCallback) {
 		this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
 			if (err) {
@@ -16,6 +17,40 @@ module.exports = {
 						funcionCallback(null);
 					} else {
 						funcionCallback(result.ops[0]._id);
+					}
+					db.close();
+				});
+			}
+		});
+	},
+	eliminarUsuario : function(criterio, funcionCallback) {
+		this.mongo.MongoClient.connect(this.app.get('db'), function(err, db) {
+			if (err) {
+				funcionCallback(null);
+			} else {
+				var collection = db.collection('usuarios');
+				collection.remove(criterio, function(err, result) {
+					if (err) {
+						funcionCallback(null);
+					} else {
+						funcionCallback(result);
+					}
+					db.close();
+				});
+			}
+		});
+	},
+	modificarUsuario : function(criterio, usuario, funcionCallback) {
+		this.mongo.MongoClient.connect(this.app.get('db'), function(err, db) {
+			if (err) {
+				funcionCallback(null);
+			} else {
+				var collection = db.collection('usuarios');
+				collection.update(criterio, {$set: usuario}, function(err, result) {
+					if (err) {
+						funcionCallback(null);
+					} else {
+						funcionCallback(result);
 					}
 					db.close();
 				});
