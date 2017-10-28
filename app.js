@@ -1,9 +1,8 @@
-
 // Módulos
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
-var swig  = require('swig');
+var swig = require('swig');
 var mongo = require('mongodb');
 var gestorBD = require("./modules/gestorBD.js");
 var crypto = require('crypto');
@@ -16,7 +15,7 @@ var corsOptions = {
 }
 
 //Rutas/controladores por lógica
-require("./routes/rusers.js")(app, swig, gestorBD);  
+require("./routes/rusers.js")(app, swig, gestorBD);
 require("./routes/raccounts.js")(app, swig, gestorBD);
 require("./routes/rcards.js")(app, swig, gestorBD);
 
@@ -26,14 +25,14 @@ require("./routes/rcards.js")(app, swig, gestorBD);
 //app.set('port', process.env.PORT || 8081);
 //app.set('db','mongodb://dpiu:dpiu1234@ds125914.mlab.com:25914/bancaonline');
 app.set('port', 8081);
-app.set('db','mongodb://localhost:27017/bancaonline');
+app.set('db', 'mongodb://localhost:27017/bancaonline');
 
 app.set('cors', cors(corsOptions));
 
 app.use(express.static('public'));
-app.get('/', app.get('cors'), function (req, res) {
-	var respuesta = swig.renderFile('views/home.html', {});
-	res.send(respuesta);
+app.get('/', app.get('cors'), function(req, res) {
+    var respuesta = swig.renderFile('views/home.html', {});
+    res.send(respuesta);
 })
 
 app.use(expressSession({
@@ -44,5 +43,5 @@ app.use(expressSession({
 
 // lanzar el servidor
 app.listen(app.get('port'), function() {
-	console.log("Servidor activo");
+    console.log("Servidor activo");
 })

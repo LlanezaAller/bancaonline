@@ -2,6 +2,7 @@ module.exports = function(app, swig, gestorBD) {
 
     var ExpressBrute = require('express-brute');
     var MongoStore = require('express-brute-mongo');
+    var MongoClient = require('mongodb').MongoClient;
 
     var store = new MongoStore(function(ready) {
         MongoClient.connect(app.get('db'), function(err, db) {
