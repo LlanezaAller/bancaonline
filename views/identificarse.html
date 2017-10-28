@@ -1,6 +1,6 @@
 {% extends "base.html" %} 
 
-{% block titulo %} Registrar usuario {% endblock %} 
+{% block titulo %} Identificar usuario {% endblock %} 
 
 {% block contenido_principal %}
 <form class="form-horizontal">
@@ -25,3 +25,45 @@
   </div>
 </form>
 {% endblock %}
+
+    {% block spam %}
+<div class="container">
+  <div id="myCarousel" class="carousel slide" data-ride="carousel">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+      <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+      <li data-target="#myCarousel" data-slide-to="1"></li>
+      <li data-target="#myCarousel" data-slide-to="2"></li>
+    </ol>
+
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner">
+
+      <div class="item active">
+        <img src="/img/fry.jpg" alt="Los Angeles" style="width:100%;">
+        <div class="carousel-caption">
+          <h3>SHUT UP AND</h3>
+          <p>TAKE MY MONEY</p>
+        </div>
+      </div>
+
+      <div class="item">
+        <img src="/img/abuelamoney.jpg" alt="Chicago" style="width:100%;">
+        <div class="carousel-caption">
+          <h3>Jubilacion anticipada</h3>
+          <p>Gracias DPIU!</p>
+        </div>
+      </div>
+    
+      <div class="item">
+        <img src="/img/ralph.gif" alt="New York" style="width:100%;">
+        <div class="carousel-caption">
+          <h3>Plan de inversiones</h3>
+          <p>Guarda tus vienes mas preciados con nosotros</p>
+        </div>
+      </div>
+  
+    </div>
+  </div>
+</div>
+    {% endblock %}
