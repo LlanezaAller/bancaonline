@@ -20,6 +20,8 @@ require("./routes/rusers.js")(app, swig, gestorBD);
 require("./routes/raccounts.js")(app, swig, gestorBD);
 require("./routes/rcards.js")(app, swig, gestorBD);
 
+
+
 //TODO: Reemplazar por puerto de heroku con su variable de sistema
 //app.set('port', process.env.PORT || 8081);
 //app.set('db','mongodb://dpiu:dpiu1234@ds125914.mlab.com:25914/bancaonline');
@@ -28,6 +30,7 @@ app.set('db','mongodb://localhost:27017/bancaonline');
 
 app.set('cors', cors(corsOptions));
 
+app.use(express.static('public'));
 app.get('/', app.get('cors'), function (req, res) {
 	var respuesta = swig.renderFile('views/home.html', {});
 	res.send(respuesta);
