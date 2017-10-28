@@ -16,7 +16,20 @@ module.exports = function(app, swig, gestorBD) {
         });
     });
 
+    app.get('/cuenta/:id', function(req, res) {
+        var criterio = { "_id": gestorBD.mongo.ObjectID(req.params.id) };
 
+        gestorBD.obtenerCuenta(criterio, function(cuentas) {
+            if (canciones == null) {
+                res.send(respuesta);
+            } else {
+                var respuesta = swig.renderFile('views/bcancion.html', {
+                    cuenta: cuentas[0]
+                });
+                res.send(respuesta);
+            }
+        });
+    })
 
     //POST
     app.post('/account', app.get('cors'), function(req, res) {
