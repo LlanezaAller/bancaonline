@@ -5,7 +5,7 @@ module.exports = function(app, swig, gestorBD) {
         var criterio = { ownerDNI: req.session.user };
 
         gestorBD.obtenerCuentasDeUsuario(criterio, function(accounts) {
-            if (canciones == null) {
+            if (accounts == null) {
                 res.send("Error al listar ");
             } else {
                 var respuesta = swig.renderFile('views/principal.html', {

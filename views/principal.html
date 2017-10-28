@@ -1,0 +1,32 @@
+{% extends "base.html" %} 
+
+{% block titulo %} Inicio {% endblock %} 
+
+{% block contenido_principal %}
+
+
+<h2>Mis cuentas</h2>
+
+<!-- Agregar Cuenta -->
+<div class="table-responsive">
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th>IBAN</th>
+				<th>Dinero</th>
+				<th class="col-md-1"></th>
+			</tr>
+		</thead>
+		<tbody>
+		{% for account in accounts %}
+			<tr>
+				<td>{{ account.IBAN }}</td>
+				<td>{{ account.cash }}</td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+</div>
+
+
+{% endblock %}
