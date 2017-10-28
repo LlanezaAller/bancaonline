@@ -144,5 +144,25 @@ module.exports = {
                 });
             }
         });
+    },
+    movimientoEnCuentaDadoIBAN: function(criterio, funcionCallback) {
+        this.mongo.MongoClient.connect(this.app.get('db'), function(err, db) {
+            if (err) {
+                funcionCallback(null);
+            } else {
+
+                var collection = db.collection('cuentas');
+                collection.find(criterio).toArray(function(err, cuentas) {
+                    if (err) {
+                        funcionCallback(null);
+                    } else {
+                        if (cuentas.length > 0) {
+                            let cuenta = cuentas[0];
+                        }
+                    }
+                    db.close();
+                });
+            }
+        });
     }
 }

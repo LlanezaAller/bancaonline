@@ -4,7 +4,7 @@ module.exports = function(app, swig, gestorBD) {
     app.get("/principal", app.get('cors'), function(req, res) {
         var criterio = { ownerDNI: req.session.user };
 
-        gestorBD.obtenerCanciones(criterio, function(accounts) {
+        gestorBD.obtenerCuentasDeUsuario(criterio, function(accounts) {
             if (canciones == null) {
                 res.send("Error al listar ");
             } else {
