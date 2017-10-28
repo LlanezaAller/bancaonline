@@ -32,6 +32,7 @@ require("./routes/rcards.js")(app, swig, gestorBD);
 
 
 app.use(express.static('public'));
+
 app.get('/', app.get('cors'), function(req, res) {
     var respuesta = swig.renderFile('views/identificarse.html', {});
     res.send(respuesta);
