@@ -111,24 +111,6 @@ module.exports = {
             }
         });
     },
-    crearCuentaDeUsuario: function(criterio, user, account, funcionCallback) {
-        this.mongo.MongoClient.connect(this.app.get('db'), function(err, db) {
-            if (err) {
-                funcionCallback(null);
-            } else {
-
-                var collection = db.collection('usuarios');
-                collection.update({ criterio }, { $addToSet: { acounts: account } }).toArray(function(err, result) {
-                    if (err) {
-                        funcionCallback(null);
-                    } else {
-                        funcionCallback(result.ops[0]._id);
-                    }
-                    db.close();
-                });
-            }
-        });
-    },
     modificarCuentaUsuario: function(criterio, account, funcionCallback) {
         this.mongo.MongoClient.connect(this.app.get('db'), function(err, db) {
             if (err) {
@@ -136,6 +118,40 @@ module.exports = {
             } else {
                 var collection = db.collection('usuarios');
                 collection.update({ accounts: { $elemMatch: { criterio } } }, { $set: account }, function(err, result) {
+                    if (err) {
+                        funcionCallback(null);
+                    } else {
+                        funcionCallback(result);
+                    }
+                    db.close();
+                });
+            }
+        });
+    },
+    crearCuenta: function(account, funcionCallback) {
+        this.mongo.MongoClient.connect(this.app.get('db'), function(err, db) {
+            if (err) {
+                funcionCallback(null);
+            } else {
+                var collection = db.collection('cuentas');
+                collection.update({ accounts: { $elemMatch: { criterio } } }, { $set: account }, function(err, result) {
+                    if (err) {
+                        funcionCallback(null);
+                    } else {
+                        funcionCallback(result);
+                    }
+                    db.close();
+                });
+            }
+        });
+    },
+    contarCuentas: function(funcionCallback) {
+        this.mongo.MongoClient.connect(this.app.get('db'), function(err, db) {
+            if (err) {
+                funcionCallback(null);
+            } else {
+                var collection = db.collection('cuentas');
+                collection.count(function(err, result) {
                     if (err) {
                         funcionCallback(null);
                     } else {

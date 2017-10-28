@@ -43,14 +43,14 @@ module.exports = function(app, swig, gestorBD) {
             password: seguro
         }
 
-        gestorBD.obtenerUsuarios(criterio, function(usuarios) {
-            if (usuarios == null || usuarios.length == 0) {
+        gestorBD.obtenerUsuarios(criterio, function(users) {
+            if (users == null || users.length == 0) {
                 req.session.usuario = null;
                 res.redirect("/identificarse" +
                     "?mensaje=Email o password incorrecto" +
                     "&tipoMensaje=alert-danger ");
             } else {
-                req.session.usuario = usuarios[0].dni;
+                req.session.user = users[0].dni;
                 res.redirect("/principal");
             }
 
@@ -58,11 +58,12 @@ module.exports = function(app, swig, gestorBD) {
 
     });
 
+
     app.post('/registrarse', app.get('cors'), function(req, res) {
 
         if (req.body.pwd1 != req.body.pwd2) {
             console.log("Contraseñas no coinciden");
-            res.redirect("/registrarse?mensaje=Error al crear el usuario, cambios invalidos")
+            res.redirect("/registrarse?mensaje=Error al crear el usuario, passwords no coincidentes")
         } else {
             console.log("Comienza proceso de registro");
             var seguro = app.get("crypto").createHmac('sha256', app.get('clave'))
@@ -77,8 +78,7 @@ module.exports = function(app, swig, gestorBD) {
                 gate: req.body.gate,
                 floor: req.body.floor,
                 email: req.body.email,
-                password: seguro,
-                accounts: []
+                password: seguro
             }
 
             console.log("Usuario:" + usuario.name + " " + usuario.surname + "\nPassword:" + req.body.password);
