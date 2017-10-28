@@ -21,6 +21,8 @@
     "body-parser": "^1.18.2",
     "cors": "^2.8.4",
     "express": "^4.16.2",
+    "express-brute": "^1.0.1",
+    "express-brute-mongo": "^1.0.0",
     "express-session": "^1.15.6",
     "mongodb": "^2.2.33",
     "swig": "^1.4.2"
