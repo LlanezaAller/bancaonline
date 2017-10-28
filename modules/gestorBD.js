@@ -145,24 +145,41 @@ module.exports = {
             }
         });
     },
-    movimientoEnCuentaDadoIBAN: function(criterio, funcionCallback) {
+    movimientoEnCuentaDadoIBAN: function(movement, funcionCallback) {
+        let cuenta;
+        let criterio = { "IBAN": movement.inputIBAN };
         this.mongo.MongoClient.connect(this.app.get('db'), function(err, db) {
+            let collection = db.collection('cuentas');
             if (err) {
                 funcionCallback(null);
             } else {
 
-                var collection = db.collection('cuentas');
                 collection.find(criterio).toArray(function(err, cuentas) {
                     if (err) {
                         funcionCallback(null);
                     } else {
                         if (cuentas.length > 0) {
-                            let cuenta = cuentas[0];
+                            cuenta = cuentas[0];
                         }
                     }
-                    db.close();
                 });
+                cuenta.cash += movement.amount;
+
+                cuenta.moves.push(movement);
+
+                let criterio = { "IBAN": movement.ouputIBAN };
+
+                collection.update(criterio, { $set: cuenta }, function(err, result) {
+                    if (err) {
+                        funcionCallback(null);
+                    } else {
+                        funcionCallback(movement.ouputIBAN);
+                    }
+                });
+
+                db.close();
             }
         });
+
     }
 }
