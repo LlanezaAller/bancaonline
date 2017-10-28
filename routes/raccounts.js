@@ -57,6 +57,36 @@ module.exports = function(app, swig, gestorBD) {
 
     });
 
+    app.post('/makeAMove', app.get('cors'), function(req, res) {
+
+        console.log("Comienza proceso de creación de cuenta");
+
+        var movement = {
+            inputIBAN: req.body.inputIBAN,
+            outputIBAN: req.body.outputIBAN,
+            amount: req.body.amount
+        }
+
+        console.log("Cuenta:" + account.IBAN + " DNI del dueño:" + account.ownerDNI + "\nStatus:" + account.status);
+        gestorBD.movimientoEnCuentaDadoIBAN(movement, function(id) {
+            if (id == null) {
+                res.redirect("/makeAMove?mensaje=Error durante la transferencia")
+            } else {
+                let iban = movement.inputIBAN;
+                movement.inputIBAN = movement.outputIBAN;
+                movement.outputIBAN = iban;
+                movement.cash *= -1;
+                gestorBD.movimientoEnCuentaDadoIBAN(movement, function(id) {
+                    if (id == null) {
+                        res.redirect("/makeAMove?mensaje=Error durante la transferencia")
+                    } else {
+                        res.redirect("/principal?mensaje=Transferencia completada");
+                    }
+                });
+            }
+        });
+    });
+
     //METHODS
     function createIBAN() {
         let country = "ES";
