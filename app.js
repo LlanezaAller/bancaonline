@@ -32,7 +32,7 @@ app.set('cors', cors(corsOptions));
 
 app.use(express.static('public'));
 app.get('/', app.get('cors'), function (req, res) {
-	var respuesta = swig.renderFile('views/login.html', {});
+	var respuesta = swig.renderFile('views/home.html', {});
 	res.send(respuesta);
 })
 
