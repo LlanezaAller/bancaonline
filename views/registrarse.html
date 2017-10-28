@@ -1,72 +1,68 @@
-{% extends "base.html" %} 
+{% extends "base.html" %} {% block titulo %} Registrar usuario {% endblock %} {% block contenido_principal %}
+<form class="form-horizontal" method="post" action="/registrarse">
+    <div class="form-group">
+        <label class="control-label col-sm-2">Nombre completo:</label>
+        <div class="col-sm-3">
+            <input type="text" class="form-control" name="name" id="name" placeholder="Nombre">
+        </div>
+        <div class="col-sm-5">
+            <input type="text" class="form-control" name="name" id="surname" placeholder="Apellidos">
+        </div>
+    </div>
 
-{% block titulo %} Registrar usuario {% endblock %} 
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="dni">DNI:</label>
+        <div class="col-sm-8">
+            <input type="text" class="form-control" name="dni" id="dni" placeholder="12345678X">
+        </div>
+    </div>
 
-{% block contenido_principal %}
-<form class="form-horizontal">
-  <div class="form-group">
-    <label class="control-label col-sm-2">Nombre completo:</label>
-    <div class="col-sm-3">
-      <input type="text" class="form-control" id="name" placeholder="Nombre">
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="phone">Telefono:</label>
+        <div class="col-sm-8">
+            <input type="text" class="form-control" name="phone" id="phone">
+        </div>
     </div>
-    <div class="col-sm-5">
-      <input type="text" class="form-control" id="apellidos" placeholder="Apellidos">
+
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="address">Direccion:</label>
+        <div class="col-sm-5">
+            <input type="text" class="form-control" name="street" id="street" placeholder="Calle">
+        </div>
+        <div class="col-sm-1">
+            <input type="text" class="form-control" name="gate" id="gate" placeholder="Portal">
+        </div>
+        <div class="col-sm-2">
+            <input type="text" class="form-control" name="floor" id="floor" placeholder="Piso">
+        </div>
     </div>
-  </div>
-  
-   <div class="form-group">
-    <label class="control-label col-sm-2" for="dni">DNI:</label>
-    <div class="col-sm-8">
-      <input type="text" class="form-control" id="dni" placeholder="12345678X">
+
+
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="email">Correo electronico:</label>
+        <div class="col-sm-8">
+            <input type="email" class="form-control" name="email" id="email">
+        </div>
     </div>
-  </div>
-  
-   <div class="form-group">
-    <label class="control-label col-sm-2" for="phone">Telefono:</label>
-    <div class="col-sm-8">
-      <input type="text" class="form-control" id="phone">
+
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="pwd1">Contrase&#241;a:</label>
+        <div class="col-sm-8">
+            <input type="password" class="form-control" name="pwd1" id="pwd1">
+        </div>
     </div>
-  </div>
-  
-   <div class="form-group">
-    <label class="control-label col-sm-2" for="address">Direccion:</label>
-    <div class="col-sm-5">
-      <input type="number" class="form-control" id="calle" placeholder="Calle" >
+
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="pwd2">Confirma tu contrase&#241;a:</label>
+        <div class="col-sm-8">
+            <input type="password" class="form-control" name="pwd2" id="pwd2">
+        </div>
     </div>
-   <div class="col-sm-1">
-     <input type="number" class="form-control" id="portal"  placeholder="Portal">
-   </div>
-       <div class="col-sm-2">
-     <input type="number" class="form-control" id="piso"  placeholder="Piso">
-   </div>
-  </div>
-  
-  
-   <div class="form-group">
-    <label class="control-label col-sm-2" for="email">Correo electronico:</label>
-    <div class="col-sm-8">
-      <input type="email" class="form-control" id="email">
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-default">Registrarse</button>
+        </div>
     </div>
-  </div>
-  
-  <div class="form-group">
-    <label class="control-label col-sm-2" for="pwd1">Contrase&#241;a:</label>
-    <div class="col-sm-8"> 
-      <input type="password" class="form-control" id="pwd1">
-    </div>
-  </div>
-  
-   <div class="form-group">
-    <label class="control-label col-sm-2" for="pwd2">Confirma tu contrase&#241;a:</label>
-    <div class="col-sm-8"> 
-      <input type="password" class="form-control" id="pwd2">
-    </div>
-  </div>
-  
-  <div class="form-group"> 
-    <div class="col-sm-offset-2 col-sm-10">
-      <button type="submit" class="btn btn-default">Registrarse</button>
-    </div>
-  </div>
 </form>
 {% endblock %}

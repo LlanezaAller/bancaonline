@@ -9,6 +9,10 @@ var crypto = require('crypto');
 var expressSession = require('express-session');
 var cors = require('cors');
 
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
 var corsOptions = {
     origin: '*',
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204 
@@ -22,14 +26,8 @@ var corsOptions = {
 app.set('port', 8081);
 app.set('db', 'mongodb://localhost:27017/bancaonline');
 app.set('cors', cors(corsOptions));
-
-//Rutas/controladores por lógica
-require("./routes/rusers.js")(app, swig, gestorBD);
-require("./routes/raccounts.js")(app, swig, gestorBD);
-require("./routes/rcards.js")(app, swig, gestorBD);
-
-
-
+app.set('clave', '8AEA3EAD0B4900E11FFE258DD5EBC068AC3667BD5016BD7079D095C16CCF55C4');
+app.set('crypto', crypto);
 
 app.use(express.static('public'));
 
@@ -39,10 +37,19 @@ app.get('/', app.get('cors'), function(req, res) {
 })
 
 app.use(expressSession({
-    secret: 'abcdefg',
+    secret: app.get('clave'),
     resave: true,
     saveUninitialized: true
 }));
+
+var gestorBD = require("./modules/gestorBD.js");
+gestorBD.init(app, mongo);
+
+
+//Rutas/controladores por lógica
+require("./routes/rusers.js")(app, swig, gestorBD);
+require("./routes/raccounts.js")(app, swig, gestorBD);
+require("./routes/rcards.js")(app, swig, gestorBD);
 
 // lanzar el servidor
 app.listen(app.get('port'), function() {
