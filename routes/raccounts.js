@@ -31,6 +31,12 @@ module.exports = function(app, swig, gestorBD) {
         });
     })
 
+
+    app.get("/account", app.get('cors'), function(req, res) {
+        var respuesta = swig.renderFile('views/crearCuenta.html', {});
+        res.send(respuesta);
+    });
+
     //POST
     app.post('/account', app.get('cors'), function(req, res) {
 
