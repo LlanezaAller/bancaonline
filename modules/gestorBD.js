@@ -200,7 +200,7 @@ module.exports = {
         });
 
     }, //CARDS
-    obtenerTarjeta: function(criterio, funcionCallback) {
+    obtenerTarjetas: function(criterio, cuenta, funcionCallback) {
         this.mongo.MongoClient.connect(this.app.get('db'), function(err, db) {
             if (err) {
                 funcionCallback(null);
@@ -211,7 +211,11 @@ module.exports = {
                     if (err) {
                         funcionCallback(null);
                     } else {
-                        funcionCallback(tarjetas);
+                        var tupla = {
+                            tarjeta: tarjetas,
+                            cuenta: cuenta
+                        }
+                        funcionCallback(tupla);
                     }
                     db.close();
                 });

@@ -1,7 +1,6 @@
 module.exports = function(app, swig, gestorBD) {
 
     //GET
-
     app.get('/account/:accountID/card/:cardID', function(req, res) {
         var criterio = { "_id": gestorBD.mongo.ObjectID(req.params.id) };
 

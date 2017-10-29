@@ -24,10 +24,16 @@ module.exports = function(app, swig, gestorBD) {
             if (cuentas == null) {
                 res.send("Error al obtener la cuenta");
             } else {
-                var respuesta = swig.renderFile('views/cuenta.html', {
-                    cuenta: cuentas[0]
+                var criterio = { "referenceAccountID": cuentas[0]._id };
+                gestorBD.obtenerTarjetas(criterio, cuentas[0], function(tupla) {
+
+                    var respuesta = swig.renderFile('views/cuenta.html', {
+                        cuenta: tupla.cuenta,
+                        tarjetas: tupla.tarjeta
+                    });
+
+                    res.send(respuesta);
                 });
-                res.send(respuesta);
             }
         });
     })
