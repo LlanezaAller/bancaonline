@@ -4,46 +4,16 @@
  
    {% block scripts %}  
    
-   <script>
-   function checkPasswordMatch() {
-	    var password = $("#pwd1").val();
-	    var confirmPassword = $("#pwd2").val();
-	    
-	    var x = document.getElementById("txtPwd");
-	    if (password != confirmPassword) {
-	        x.style.display = "block";
-	    } else {
-	        x.style.display = "none";
-	    }
-	}
-
-	$(document).ready(function () {
-	   $("#pwd2").keyup(checkPasswordMatch);
-	});
    
-   </script>
+   {% endblock %} 
    
-   
-   <script>
-   function onSubmit(){
-	    var pwd1 = $('#pwd1').val();
-	    var pwd2 = $('#pwd2').val();
-	    if (pwd1  !== pwd2) {
-	        return false;
-	    }
-   }
-   
-   </script>
-   {% endblock %}
- 
- 
  {% block contenido_principal %}
 
 <form class="form-horizontal" method="post" action="/modperfil" id="modificarPerfil" onsubmit=" return onSubmit()">
     <div class="form-group">
         <label class="control-label col-sm-2">Nombre completo:</label>
         <div class="col-sm-3">
-            <input type="text" class="form-control" name="name" id="name" value=usuario.name required>
+            <input type="text" class="form-control" name="name" id="name" value=user.name required>
         </div>
         <div class="col-sm-5">
             <input type="text" class="form-control" name="name" id="surname" value=usuario.surname required>
@@ -60,8 +30,11 @@
     <div class="form-group">
         <label class="control-label col-sm-2" for="phone">Telefono:</label>
         <div class="col-sm-8">
-            <input type="text" class="form-control" name="phone" id="phone" value=usuario.phone required>
+            <input type="number" class="form-control" name="phone" id="phone" value=usuario.phone required>
         </div>
+         <div class="alert alert-danger" id="telef" style="display:none;">
+			Introduzca un numero de telefono correcto
+		</div>
     </div>
 
     <div class="form-group">
@@ -70,8 +43,11 @@
             <input type="text" class="form-control" name="street" id="street" value=usuario.street required>
         </div>
         <div class="col-sm-1">
-            <input type="text" class="form-control" name="gate" id="gate" value=usuario.gate>
+            <input type="text" class="form-control" name="gate" id="gate" value=usuario.gate required>
         </div>
+        <div class="alert alert-danger" id="gateAl" style="display:none;">
+			Introduzca un portal correcto
+		</div>
         <div class="col-sm-2">
             <input type="text" class="form-control" name="floor" id="floor" value=usuario.floor>
         </div>
@@ -86,20 +62,17 @@
     </div>
 
     <div class="form-group">
-        <label class="control-label col-sm-2" for="pwd1">Contrase&#241;a:</label>
+        <label class="control-label col-sm-2" for="pwd1">Nueva contrase&#241;a:</label>
         <div class="col-sm-4">
-            <input type="password" class="form-control" name="pwd1" id="pwd1" onChange="checkPasswordMatch();" required>
+            <input type="password" class="form-control" name="pwd1" id="pwd1">
         </div>
     </div>
 
     <div class="form-group">
-        <label class="control-label col-sm-2" for="pwd2">Confirma tu contrase&#241;a:</label>
+        <label class="control-label col-sm-2" for="pwd2">Contrase&#241;a:</label>
         <div class="col-sm-4">
-            <input type="password" class="form-control" name="pwd2" id="pwd2" onChange="checkPasswordMatch();" required>
+            <input type="password" class="form-control" name="pwd2" id="pwd2" required>
         </div>
-        <div class="alert alert-danger col-sm-4" id="txtPwd" style="display:none;">
-			  Las contrase&#241;as no coinciden
-		</div>
     </div>
 
     <div class="form-group">

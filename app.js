@@ -32,7 +32,7 @@ app.set('crypto', crypto);
 app.use(express.static('public'));
 
 app.get('/', app.get('cors'), function(req, res) {
-    var respuesta = swig.renderFile('views/modPerfil.html', {});
+    var respuesta = swig.renderFile('views/crearCuenta.html', {});
     res.send(respuesta);
 })
 
