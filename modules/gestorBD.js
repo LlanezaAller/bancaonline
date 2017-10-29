@@ -74,7 +74,7 @@ module.exports = {
                 });
             }
         });
-    },
+    }, //Cuentas
     obtenerCuentasDeUsuario: function(criterio, funcionCallback) {
         this.mongo.MongoClient.connect(this.app.get('db'), function(err, db) {
             if (err) {
