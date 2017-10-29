@@ -43,6 +43,19 @@ function tipoCuenta(){
 			cont = true;
 		}
 	}
+	
+	if(c1.checked){
+		document.getElementById("accountType").value = "credito"
+	}
+	else if(c2.checked){
+		document.getElementById("accountType").value = "debito"
+	}
+	else if(c3.checked){
+		document.getElementById("accountType").value = "monedero"
+	}
+	
+	
+
 	return cont;
 }
 
@@ -86,7 +99,7 @@ function tipoCuenta(){
 
 
 
-<p id="accountType"> </p>
+<input id="accountType" name="accountType" style="display:none;">
 
   <div class="form-group"> 
     <div class="col-sm-offset-2 col-sm-10">
