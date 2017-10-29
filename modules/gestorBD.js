@@ -127,7 +127,7 @@ module.exports = {
             }
         });
     },
-    obtenerCuentaDadoIBAN: function(criterio, funcionCallback) {
+    obtenerCuenta: function(criterio, funcionCallback) {
         this.mongo.MongoClient.connect(this.app.get('db'), function(err, db) {
             if (err) {
                 funcionCallback(null);
