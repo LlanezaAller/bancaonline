@@ -34,7 +34,7 @@ jQuery(document).ready(function($) {
 		{% for account in accounts %}
 			<tr class='clickable-row' data-href='/account/{{account._id.toString()}}'>
 				<td>{{ account.IBAN }}</td>
-				<td>{{ account.cash }}</td>
+				<td>{{ account.cash }} &#8364;</td>
 			</tr>
 		{% endfor %}
 		</tbody>

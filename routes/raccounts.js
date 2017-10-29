@@ -96,7 +96,6 @@ module.exports = function(app, swig, gestorBD) {
     });
 
     app.post('/account/:inputIBAN/makeAMove', app.get('cors'), function(req, res) {
-        console.log("Comienza proceso de creación de cuenta");
 
         var movement = {
             inputIBAN: req.params.inputIBAN,
@@ -111,23 +110,13 @@ module.exports = function(app, swig, gestorBD) {
                 if (id == null) {
                     res.redirect("/makeAMove?mensaje=Datos de transferencia erróneos");
                 } else {
-                    let iban = movement.inputIBAN;
-                    movement.inputIBAN = movement.outputIBAN;
-                    movement.outputIBAN = iban;
-                    movement.cash *= -1;
-                    gestorBD.movimientoEnCuentaDadoIBAN(movement, function(id) {
-                        if (id == null) {
-                            res.redirect("/principal?mensaje=Transferencia completada");
-                        } else {
-                            res.redirect("/account/" + id.ops[0]._id + "?mensaje=Transferencia completada");
-                        }
-                    });
+                    res.redirect("/principal");
                 }
             });
         }
     });
 
-    app.get('/unsubscribe/:id', function(req, res) {
+    app.post('/unsubscribe/:id', function(req, res) {
         var criterio = { "_id": gestorBD.mongo.ObjectID(req.params.id) };
 
         gestorBD.obtenerCuenta(criterio, function(cuentas) {
@@ -137,7 +126,7 @@ module.exports = function(app, swig, gestorBD) {
                 var criterio = { "_id": cuentas[0]._id };
 
                 cuentas[0].status = "baja";
-                gestorBD.modificarCuenta(criterio, cuentas[0], function(cuentas) {
+                gestorBD.modificarCuenta(criterio, cuentas[0], function(id) {
                     if (id == null) {
                         res.redirect("/account/" + id.ops[0]._id + "?mensaje=Imposible dar de Baja");
                     } else {

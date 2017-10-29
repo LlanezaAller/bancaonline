@@ -177,9 +177,18 @@ module.exports = {
                     } else {
                         if (cuentas.length > 0) {
                             cuenta = cuentas[0];
-
-                            cuenta.cash += movement.amount;
-
+                            let money = parseInt(cuenta.cash) +parseInt(movement.amount);
+                            if(cuenta.limit == ""){
+                            	cuenta.cash = money;
+                            }
+                            else{
+                            	if(money > cuenta.limit){
+                            		cuenta.cash = cuenta.limit;
+                            	}
+                            	else{
+                            		cuenta.cash = money;
+                            	}
+                            }
                             cuenta.moves.push(movement);
 
                             let criterio = { "IBAN": movement.inputIBAN };
