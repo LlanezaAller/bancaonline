@@ -145,7 +145,7 @@ module.exports = {
             }
         });
     },
-    movimientoEnCuentaDadoIBAN: function(criterio, movement, funcionCallback) {
+    movimientoEnCuentaDadoIBAN: function(movement, funcionCallback) {
         let cuenta;
         let criterio = { "IBAN": movement.inputIBAN };
         this.mongo.MongoClient.connect(this.app.get('db'), function(err, db) {
@@ -160,20 +160,21 @@ module.exports = {
                     } else {
                         if (cuentas.length > 0) {
                             cuenta = cuentas[0];
+
+                            cuenta.cash += movement.amount;
+
+                            cuenta.moves.push(movement);
+
+                            let criterio = { "IBAN": movement.ouputIBAN };
+
+                            collection.update(criterio, { $set: cuenta }, function(err, result) {
+                                if (err) {
+                                    funcionCallback(null);
+                                } else {
+                                    funcionCallback(movement.ouputIBAN);
+                                }
+                            });
                         }
-                    }
-                });
-                cuenta.cash += movement.amount;
-
-                cuenta.moves.push(movement);
-
-                let criterio = { "IBAN": movement.ouputIBAN };
-
-                collection.update(criterio, { $set: cuenta }, function(err, result) {
-                    if (err) {
-                        funcionCallback(null);
-                    } else {
-                        funcionCallback(movement.ouputIBAN);
                     }
                 });
 
