@@ -6,8 +6,8 @@
 <script>
    function onSubmit(){ 
 		var iban = document.getElementById("outputIBAN").value;
-	  	var pais = dni.substr(0,2);
-	  	var numero = dni.substr(2,iban.length);
+	  	var pais = iban.substr(0,2);
+	  	var numero = iban.substr(2,iban.length);
 	  	
 	  	var cont = false;
 	  	if(pais == "ES" && numero.length == 22){
