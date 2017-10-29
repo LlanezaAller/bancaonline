@@ -115,6 +115,7 @@ module.exports = function(app, swig, gestorBD) {
 
     function completeNumber(obj) {
         while (obj.toString().length < 10)
-            obj.value = '0' + obj.value;
+            obj = '0' + obj;
+        return obj;
     }
 }
