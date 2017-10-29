@@ -95,12 +95,11 @@ module.exports = function(app, swig, gestorBD) {
         });
     });
 
-    app.post('/makeAMove', app.get('cors'), function(req, res) {
-
+    app.post('/account/:inputIBAN/makeAMove', app.get('cors'), function(req, res) {
         console.log("Comienza proceso de creación de cuenta");
 
         var movement = {
-            inputIBAN: req.body.inputIBAN,
+            inputIBAN: req.params.inputIBAN,
             outputIBAN: req.body.outputIBAN,
             amount: req.body.amount
         }
@@ -108,8 +107,6 @@ module.exports = function(app, swig, gestorBD) {
         if (!asserts.assertPropertiesAreNullOrEmpty(movement))
             res.redirect("/makeAMove?mensaje=Datos de transferencia erróneos")
         else {
-            var criterio = { "IBAN": movement.inputIBAN };
-
             gestorBD.movimientoEnCuentaDadoIBAN(movement, function(id) {
                 if (id == null) {
                     res.redirect("/makeAMove?mensaje=Datos de transferencia erróneos");

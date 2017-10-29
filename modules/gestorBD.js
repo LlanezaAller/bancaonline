@@ -182,7 +182,7 @@ module.exports = {
 
                             cuenta.moves.push(movement);
 
-                            let criterio = { "IBAN": movement.ouputIBAN };
+                            let criterio = { "IBAN": movement.inputIBAN };
 
                             collection.update(criterio, { $set: cuenta }, function(err, result) {
                                 if (err) {
@@ -190,13 +190,15 @@ module.exports = {
                                 } else {
                                     funcionCallback(result);
                                 }
+                                db.close();
                             });
                         }
                     }
                 });
 
-                db.close();
+                
             }
+            
         });
 
     }, //CARDS
