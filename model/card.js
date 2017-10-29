@@ -1,6 +1,6 @@
 module.exports = class Cards {
     //CARDTYPES = ["credito", "debito", "monedero"];
-    //STATUSAVAILABLE =["alta", "baja", "suspendida"];
+    //STATUSAVAILABLE =["alta", "baja"];
 
     constructor(ownerDNI, referenceAccount, cardNumber, status, cash, type, limit) {
         //cash si el type == monedero

@@ -107,26 +107,27 @@ module.exports = function(app, swig, gestorBD) {
 
         if (!asserts.assertPropertiesAreNullOrEmpty(movement))
             res.redirect("/makeAMove?mensaje=Datos de transferencia erróneos")
+        else {
+            var criterio = { "IBAN": movement.inputIBAN };
 
-        var criterio = { "IBAN": movement.inputIBAN };
-
-        gestorBD.movimientoEnCuentaDadoIBAN(movement, function(id) {
-            if (id == null) {
-                res.redirect("/makeAMove?mensaje=Datos de transferencia erróneos");
-            } else {
-                let iban = movement.inputIBAN;
-                movement.inputIBAN = movement.outputIBAN;
-                movement.outputIBAN = iban;
-                movement.cash *= -1;
-                gestorBD.movimientoEnCuentaDadoIBAN(movement, function(id) {
-                    if (id == null) {
-                        res.redirect("/principal?mensaje=Transferencia completada");
-                    } else {
-                        res.redirect("/account/" + id.ops[0]._id + "?mensaje=Transferencia completada");
-                    }
-                });
-            }
-        });
+            gestorBD.movimientoEnCuentaDadoIBAN(movement, function(id) {
+                if (id == null) {
+                    res.redirect("/makeAMove?mensaje=Datos de transferencia erróneos");
+                } else {
+                    let iban = movement.inputIBAN;
+                    movement.inputIBAN = movement.outputIBAN;
+                    movement.outputIBAN = iban;
+                    movement.cash *= -1;
+                    gestorBD.movimientoEnCuentaDadoIBAN(movement, function(id) {
+                        if (id == null) {
+                            res.redirect("/principal?mensaje=Transferencia completada");
+                        } else {
+                            res.redirect("/account/" + id.ops[0]._id + "?mensaje=Transferencia completada");
+                        }
+                    });
+                }
+            });
+        }
     });
 
     app.get('/unsubscribe/:id', function(req, res) {
