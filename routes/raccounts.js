@@ -20,8 +20,8 @@ module.exports = function(app, swig, gestorBD) {
         var criterio = { "_id": gestorBD.mongo.ObjectID(req.params.id) };
 
         gestorBD.obtenerCuenta(criterio, function(cuentas) {
-            if (canciones == null) {
-                res.send(respuesta);
+            if (cuentas == null) {
+                res.send("Error al obtener la cuenta");
             } else {
                 var respuesta = swig.renderFile('views/cuenta.html', {
                     cuenta: cuentas[0]
