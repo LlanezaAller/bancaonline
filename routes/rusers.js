@@ -33,17 +33,17 @@ module.exports = function(app, swig, gestorBD) {
     });
 
     app.get("/modPerfil", app.get('cors'), function(req, res) {
-        var criterio = { ownerDNI: req.session.user };
+        var criterio = { dni: req.session.user };
 
         gestorBD.obtenerUsuarios(criterio, function(users) {
             if (users == null || users.length == 0) {
                 req.session.usuario = null;
-                res.redirect("/modPerfil" +
+                res.redirect("/identificarse" +
                     "?mensaje=Error en el acceso" +
                     "&tipoMensaje=alert-danger ");
             } else {
-                var respuesta = swig.renderFile('views/principal.html', {
-                    user: user[0]
+                var respuesta = swig.renderFile('views/modPerfil.html', {
+                    user: users[0]
                 });
                 res.send(respuesta);
             }
