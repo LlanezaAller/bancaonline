@@ -57,7 +57,7 @@ module.exports = function(app, swig, gestorBD) {
             if (id == null) {
                 res.redirect("/newAccount?mensaje=Error al registrar usuario")
             } else {
-                res.redirect("/principal?mensaje=Nuevo usuario registrado");
+                res.redirect("/principal?mensaje=Nueva cuenta registrada");
             }
         });
 

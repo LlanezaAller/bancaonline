@@ -81,12 +81,12 @@ module.exports = {
                 funcionCallback(null);
             } else {
 
-                var collection = db.collection('usuarios');
-                collection.find(criterio).toArray(function(err, usuarios) {
+                var collection = db.collection('cuentas');
+                collection.find(criterio).toArray(function(err, cuentas) {
                     if (err) {
                         funcionCallback(null);
                     } else {
-                        funcionCallback(usuarios.accounts);
+                        funcionCallback(cuentas);
                     }
                     db.close();
                 });

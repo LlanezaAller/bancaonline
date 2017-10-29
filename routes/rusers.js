@@ -27,11 +27,6 @@ module.exports = function(app, swig, gestorBD) {
     });
 
 
-    app.get("/principal", app.get('cors'), function(req, res) {
-        var respuesta = swig.renderFile('views/principal.html', {});
-        res.send(respuesta);
-    });
-
     app.get("/modPerfil", app.get('cors'), function(req, res) {
         var criterio = { dni: req.session.user };
 
@@ -91,7 +86,8 @@ module.exports = function(app, swig, gestorBD) {
         }
     });
 
-    app.post("/identificarse", bruteforce.prevent, function(req, res) {
+    app.post("/identificarse", function(req, res) {
+        //app.post("/identificarse", bruteforce.prevent, function(req, res) {
         var seguro = app.get("crypto").createHmac('sha256', app.get('clave'))
             .update(req.body.pwd).digest('hex');
 
