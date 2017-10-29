@@ -7,5 +7,6 @@ module.exports = {
                 if (!object[keys[i]] || object[keys[i]] == "")
                     return false;
         }
+        return true;
     }
 }
