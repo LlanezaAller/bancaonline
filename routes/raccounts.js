@@ -23,7 +23,7 @@ module.exports = function(app, swig, gestorBD) {
             if (canciones == null) {
                 res.send(respuesta);
             } else {
-                var respuesta = swig.renderFile('views/bcancion.html', {
+                var respuesta = swig.renderFile('views/cuenta.html', {
                     cuenta: cuentas[0]
                 });
                 res.send(respuesta);
