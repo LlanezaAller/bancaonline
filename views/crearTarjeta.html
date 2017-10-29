@@ -24,17 +24,17 @@
             document.getElementById("eligeLim").style.display = "none";
             cont = true;
         }
-
+    	var pathArray = location.href.split( '/' );
+    	var id = pathArray[pathArray.length-2];
+    	document.getElementById("form").action = "/account/"+id+"/newCard/";
         return cont;
     }
 </script>
 
 
-
-
 {% endblock %} {% block contenido_principal %}
 
-<form class="form-horizontal" onsubmit="return tipoCuenta()">
+<form id="form" class="form-horizontal" method="post" action="/account//newCard/" onsubmit="return tipoCuenta()">
 
     <div>
 

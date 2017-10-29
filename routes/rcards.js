@@ -16,14 +16,14 @@ module.exports = function(app, swig, gestorBD) {
         });
     })
 
-    app.get("/newCard", app.get('cors'), function(req, res) {
+    app.get('/account/:accountID/newCard', app.get('cors'), function(req, res) {
         var respuesta = swig.renderFile('views/crearTarjeta.html', {});
         res.send(respuesta);
     });
 
     //POST
 
-    app.post('/account/:accountID/newCard/', app.get('cors'), function(req, res) {
+    app.post('/account/:accountID/newCard', app.get('cors'), function(req, res) {
 
         console.log("Comienza proceso de creación de tarjetas");
 

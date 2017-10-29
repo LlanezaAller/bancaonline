@@ -29,6 +29,9 @@
 	    });
 	});
 	</script>
+	
+	
+
 {% endblock %} 
 
  {% block contenido_principal %}
@@ -77,15 +80,15 @@
 </div>
 
 
- <form action="/account/{{cuenta._id.toString()}}/tarjeta" method="get">
+ <form action="/account/{{cuenta._id.toString()}}/newCard" method="get">
     <input type="submit" value="A&#241;adir una tarjeta" 
-         name="Submit" id="frm1_submit" />
+         name="Submit" />
 </form>
 
 
  <form action="/account/{{cuenta._id.toString()}}/makeAMove" method="get">
     <input type="submit" value="Realizar una transferencia" 
-         name="Submit" id="frm1_submit" />
+         name="Submit"/>
 </form>
 
 <form method="post" action="/unsuscribe/{{cuenta._id.toString()}}" method="post" onsubmit="return onSubmit()">
