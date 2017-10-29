@@ -1,4 +1,5 @@
 module.exports = function(app, swig, gestorBD) {
+    var asserts = require("./asserts");
 
     //GET
     app.get("/principal", app.get('cors'), function(req, res) {
@@ -67,11 +68,15 @@ module.exports = function(app, swig, gestorBD) {
             status: "active",
             moves: []
         }
+
+        if (!asserts.assertPropertiesAreNullOrEmpty(movement))
+            res.redirect("/newAccount?mensaje=Error en los campos")
+
         accountIBAN = undefined;
         console.log("Cuenta:" + account.IBAN + " DNI del dueño:" + account.ownerDNI + "\nStatus:" + account.status);
         gestorBD.crearCuenta(account, function(id) {
             if (id == null) {
-                res.redirect("/newAccount?mensaje=Error al registrar usuario")
+                res.redirect("/newAccount?mensaje=Error al registrar una cuenta");
             } else {
                 res.redirect("/principal?mensaje=Nueva cuenta registrada");
             }
@@ -89,10 +94,14 @@ module.exports = function(app, swig, gestorBD) {
             amount: req.body.amount
         }
 
-        console.log("Cuenta:" + account.IBAN + " DNI del dueño:" + account.ownerDNI + "\nStatus:" + account.status);
+        if (!asserts.assertPropertiesAreNullOrEmpty(movement))
+            res.redirect("/makeAMove?mensaje=Datos de transferencia erróneos")
+
+        var criterio = { "IBAN": movement.inputIBAN };
+
         gestorBD.movimientoEnCuentaDadoIBAN(movement, function(id) {
             if (id == null) {
-                res.redirect("/makeAMove?mensaje=Error durante la transferencia")
+                res.redirect("/makeAMove?mensaje=Error durante la transferencia");
             } else {
                 let iban = movement.inputIBAN;
                 movement.inputIBAN = movement.outputIBAN;
@@ -100,7 +109,7 @@ module.exports = function(app, swig, gestorBD) {
                 movement.cash *= -1;
                 gestorBD.movimientoEnCuentaDadoIBAN(movement, function(id) {
                     if (id == null) {
-                        res.redirect("/makeAMove?mensaje=Error durante la transferencia")
+                        res.redirect("/makeAMove?mensaje=Error durante la transferencia");
                     } else {
                         res.redirect("/principal?mensaje=Transferencia completada");
                     }

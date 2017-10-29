@@ -145,7 +145,7 @@ module.exports = {
             }
         });
     },
-    movimientoEnCuentaDadoIBAN: function(movement, funcionCallback) {
+    movimientoEnCuentaDadoIBAN: function(criterio, movement, funcionCallback) {
         let cuenta;
         let criterio = { "IBAN": movement.inputIBAN };
         this.mongo.MongoClient.connect(this.app.get('db'), function(err, db) {
@@ -181,5 +181,40 @@ module.exports = {
             }
         });
 
+    }, //CARDS
+    obtenerTarjeta: function(criterio, funcionCallback) {
+        this.mongo.MongoClient.connect(this.app.get('db'), function(err, db) {
+            if (err) {
+                funcionCallback(null);
+            } else {
+
+                var collection = db.collection('tarjetas');
+                collection.find(criterio).toArray(function(err, tarjetas) {
+                    if (err) {
+                        funcionCallback(null);
+                    } else {
+                        funcionCallback(tarjetas);
+                    }
+                    db.close();
+                });
+            }
+        });
+    },
+    crearTarjeta: function(card, funcionCallback) {
+        this.mongo.MongoClient.connect(this.app.get('db'), function(err, db) {
+            if (err) {
+                funcionCallback(null);
+            } else {
+                var collection = db.collection('tarjetas');
+                collection.insert(card, function(err, result) {
+                    if (err) {
+                        funcionCallback(null);
+                    } else {
+                        funcionCallback(result);
+                    }
+                    db.close();
+                });
+            }
+        });
     }
 }
