@@ -42,16 +42,17 @@ module.exports = function(app, swig, gestorBD) {
 
         console.log("Comienza proceso de creación de cuenta");
 
+        createIBAN();
         var account = {
             ownerDNI: req.session.user,
-            IBAN: createIBAN(),
+            IBAN: accountIBAN,
             cash: 0,
             accountType: req.body.accountType,
             limit: req.body.limit,
             status: "active",
             moves: []
         }
-
+        accountIBAN = undefined;
         console.log("Cuenta:" + account.IBAN + " DNI del dueño:" + account.ownerDNI + "\nStatus:" + account.status);
         gestorBD.crearCuenta(account, function(id) {
             if (id == null) {
@@ -94,6 +95,8 @@ module.exports = function(app, swig, gestorBD) {
     });
 
     //METHODS
+    let accountIBAN;
+
     function createIBAN() {
         let country = "ES";
         let countryCode = 98;
@@ -101,16 +104,15 @@ module.exports = function(app, swig, gestorBD) {
         let codeOffice = 7777;
         let controlDigit = 99;
         let accountNumber;
-
+        let value;
         gestorBD.contarCuentas(function(result) {
             if (result == null) {
                 res.redirect("/newAccount?mensaje=Error al registrar usuario")
             } else {
                 accountNumber = completeNumber(result);
+                accountIBAN = country + countryCode + bankCode + codeOffice + controlDigit + accountNumber;
             }
         });
-        return country + countryCode + bankCode + codeOffice + controlDigit + accountNumber;
-
     }
 
     function completeNumber(obj) {
