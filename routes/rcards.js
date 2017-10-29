@@ -29,7 +29,7 @@ module.exports = function(app, swig, gestorBD) {
             referenceAccountID: req.params.accountID,
             cardNumber: cardNumber,
             expirationDate: req.body.expirationDate,
-            status: "active",
+            status: "activa",
             cash: 0,
             type: req.body.cardType,
             limit: req.body.limit

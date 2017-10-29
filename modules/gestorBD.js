@@ -110,13 +110,13 @@ module.exports = {
             }
         });
     },
-    contarCuentas: function(funcionCallback) {
+    modificarCuenta: function(criterio, cuenta, funcionCallback) {
         this.mongo.MongoClient.connect(this.app.get('db'), function(err, db) {
             if (err) {
                 funcionCallback(null);
             } else {
                 var collection = db.collection('cuentas');
-                collection.count(function(err, result) {
+                collection.update(criterio, { $set: cuenta }, function(err, result) {
                     if (err) {
                         funcionCallback(null);
                     } else {
@@ -127,7 +127,7 @@ module.exports = {
             }
         });
     },
-    contarCuentasSync: function(funcionCallback) {
+    contarCuentas: function(funcionCallback) {
         this.mongo.MongoClient.connect(this.app.get('db'), function(err, db) {
             if (err) {
                 funcionCallback(null);

@@ -3,7 +3,7 @@ module.exports = function(app, swig, gestorBD) {
 
     //GET
     app.get("/principal", app.get('cors'), function(req, res) {
-        var criterio = { ownerDNI: req.session.user };
+        var criterio = { ownerDNI: req.session.user, status: "activa" };
 
         gestorBD.obtenerCuentasDeUsuario(criterio, function(accounts) {
             if (accounts == null) {
@@ -24,7 +24,7 @@ module.exports = function(app, swig, gestorBD) {
             if (cuentas == null) {
                 res.send("Error al obtener la cuenta");
             } else {
-                var criterio = { "referenceAccountID": cuentas[0]._id };
+                var criterio = { referenceAccountID: cuentas[0]._id, status: "activa" };
                 gestorBD.obtenerTarjetas(criterio, cuentas[0], function(tupla) {
 
                     var respuesta = swig.renderFile('views/cuenta.html', {
@@ -74,7 +74,7 @@ module.exports = function(app, swig, gestorBD) {
                     cash: 0,
                     accountType: req.body.accountType,
                     limit: req.body.limit,
-                    status: "active",
+                    status: "activa",
                     moves: []
                 }
 
@@ -128,6 +128,27 @@ module.exports = function(app, swig, gestorBD) {
             }
         });
     });
+
+    app.get('/unsubscribe/:id', function(req, res) {
+        var criterio = { "_id": gestorBD.mongo.ObjectID(req.params.id) };
+
+        gestorBD.obtenerCuenta(criterio, function(cuentas) {
+            if (cuentas == null) {
+                res.send("Error al obtener la cuenta");
+            } else {
+                var criterio = { "_id": cuentas[0]._id };
+
+                cuentas[0].status = "baja";
+                gestorBD.modificarCuenta(criterio, cuentas[0], function(cuentas) {
+                    if (id == null) {
+                        res.redirect("/account/" + id.ops[0]._id + "?mensaje=Imposible dar de Baja");
+                    } else {
+                        res.redirect("/principal?mensaje=Tarjeta dada de Baja");
+                    }
+                });
+            }
+        });
+    })
 
     //METHODS
 
