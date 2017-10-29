@@ -95,13 +95,13 @@ module.exports = function(app, swig, gestorBD) {
         }
 
         if (!asserts.assertPropertiesAreNullOrEmpty(movement))
-            res.redirect("/makeAMove?mensaje=Datos de transferencia erróneos")
+            res.redirect("/movimiento?mensaje=Datos de transferencia erróneos")
 
         var criterio = { "IBAN": movement.inputIBAN };
 
         gestorBD.movimientoEnCuentaDadoIBAN(movement, function(id) {
             if (id == null) {
-                res.redirect("/makeAMove?mensaje=Error durante la transferencia");
+                res.redirect("/principal?mensaje=Transferencia completada");
             } else {
                 let iban = movement.inputIBAN;
                 movement.inputIBAN = movement.outputIBAN;
@@ -109,7 +109,7 @@ module.exports = function(app, swig, gestorBD) {
                 movement.cash *= -1;
                 gestorBD.movimientoEnCuentaDadoIBAN(movement, function(id) {
                     if (id == null) {
-                        res.redirect("/makeAMove?mensaje=Error durante la transferencia");
+                        res.redirect("/movimiento?mensaje=Error durante la transferencia");
                     } else {
                         res.redirect("/principal?mensaje=Transferencia completada");
                     }
