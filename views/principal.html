@@ -2,15 +2,39 @@
 
 {% block titulo %} Inicio {% endblock %} 
 
+
+
+
+  {% block scripts %} 
+<script>
+jQuery(document).ready(function($) {
+    $(".clickable-row").click(function() {
+        window.location = $(this).data("href");
+    });
+});
+</script>
+
+
+{% endblock %}
+ 
+   {% block scripts %} 
+<script>
+jQuery(document).ready(function($) {
+    $(".clickable-row").click(function() {
+        window.location = $(this).data("href");
+    });
+});
+</script>
+ {% endblock %}
 {% block contenido_principal %}
 
-
+ 
 <h2>Mis cuentas</h2>
 
 
 <!-- Agregar Cuenta -->
 <div class="table-responsive">
-	<table class="table table-hover">
+	<table class="table table-hover" id="cuentas">
 		<thead>
 			<tr>
 				<th>IBAN</th>
@@ -20,12 +44,9 @@
 		</thead>
 		<tbody>
 		{% for account in accounts %}
-			<tr>
+			<tr class='clickable-row' data-href='/account/{{account._id.toString()}}'>
 				<td>{{ account.IBAN }}</td>
 				<td>{{ account.cash }}</td>
-				<td> Modificar </td>
-				<td> Operaciones </td>
-				<td> Dar de baja </td>
 			</tr>
 		{% endfor %}
 		</tbody>
