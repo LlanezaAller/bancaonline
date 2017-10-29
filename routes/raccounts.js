@@ -58,30 +58,35 @@ module.exports = function(app, swig, gestorBD) {
 
         console.log("Comienza proceso de creación de cuenta");
 
-        createIBAN();
-        var account = {
-            ownerDNI: req.session.user,
-            IBAN: accountIBAN,
-            cash: 0,
-            accountType: req.body.accountType,
-            limit: req.body.limit,
-            status: "active",
-            moves: []
-        }
-
-        if (!asserts.assertPropertiesAreNullOrEmpty(movement))
-            res.redirect("/newAccount?mensaje=Error en los campos")
-
-        accountIBAN = undefined;
-        console.log("Cuenta:" + account.IBAN + " DNI del dueño:" + account.ownerDNI + "\nStatus:" + account.status);
-        gestorBD.crearCuenta(account, function(id) {
-            if (id == null) {
-                res.redirect("/newAccount?mensaje=Error al registrar una cuenta");
+        createIBAN(function(result) {
+            if (result == null) {
+                res.redirect("/newAccount?mensaje=Error en los campos")
             } else {
-                res.redirect("/principal?mensaje=Nueva cuenta registrada");
+                var account = {
+                    ownerDNI: req.session.user,
+                    IBAN: result,
+                    cash: 0,
+                    accountType: req.body.accountType,
+                    limit: req.body.limit,
+                    status: "active",
+                    moves: []
+                }
+
+                if (!asserts.assertPropertiesAreNullOrEmpty(account, "limit", "cash", "moves"))
+                    res.redirect("/newAccount?mensaje=Error en los campos")
+                else {
+                    accountIBAN = undefined;
+                    console.log("Cuenta:" + account.IBAN + " DNI del dueño:" + account.ownerDNI + "\nStatus:" + account.status);
+                    gestorBD.crearCuenta(account, function(id) {
+                        if (id == null) {
+                            res.redirect("/newAccount?mensaje=Error al registrar una cuenta");
+                        } else {
+                            res.redirect("/principal?mensaje=Nueva cuenta registrada");
+                        }
+                    });
+                }
             }
         });
-
     });
 
     app.post('/makeAMove', app.get('cors'), function(req, res) {
@@ -95,13 +100,13 @@ module.exports = function(app, swig, gestorBD) {
         }
 
         if (!asserts.assertPropertiesAreNullOrEmpty(movement))
-            res.redirect("/movimiento?mensaje=Datos de transferencia erróneos")
+            res.redirect("/makeAMove?mensaje=Datos de transferencia erróneos")
 
         var criterio = { "IBAN": movement.inputIBAN };
 
         gestorBD.movimientoEnCuentaDadoIBAN(movement, function(id) {
             if (id == null) {
-                res.redirect("/principal?mensaje=Transferencia completada");
+                res.redirect("/makeAMove?mensaje=Datos de transferencia erróneos");
             } else {
                 let iban = movement.inputIBAN;
                 movement.inputIBAN = movement.outputIBAN;
@@ -109,9 +114,9 @@ module.exports = function(app, swig, gestorBD) {
                 movement.cash *= -1;
                 gestorBD.movimientoEnCuentaDadoIBAN(movement, function(id) {
                     if (id == null) {
-                        res.redirect("/movimiento?mensaje=Error durante la transferencia");
-                    } else {
                         res.redirect("/principal?mensaje=Transferencia completada");
+                    } else {
+                        res.redirect("/account/" + id.ops[0]._id + "?mensaje=Transferencia completada");
                     }
                 });
             }
@@ -119,22 +124,21 @@ module.exports = function(app, swig, gestorBD) {
     });
 
     //METHODS
-    let accountIBAN;
 
-    function createIBAN() {
+    function createIBAN(functionCallback) {
         let country = "ES";
         let countryCode = 98;
         let bankCode = 6179;
         let codeOffice = 7777;
         let controlDigit = 99;
         let accountNumber;
-        let value;
         gestorBD.contarCuentas(function(result) {
             if (result == null) {
-                res.redirect("/newAccount?mensaje=Error al registrar usuario")
+                res.redirect("/newAccount?mensaje=Error al crear tarjetas");
             } else {
                 accountNumber = completeNumber(result);
                 accountIBAN = country + countryCode + bankCode + codeOffice + controlDigit + accountNumber;
+                functionCallback(accountIBAN);
             }
         });
     }

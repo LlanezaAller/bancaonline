@@ -127,6 +127,23 @@ module.exports = {
             }
         });
     },
+    contarCuentasSync: function(funcionCallback) {
+        this.mongo.MongoClient.connect(this.app.get('db'), function(err, db) {
+            if (err) {
+                funcionCallback(null);
+            } else {
+                var collection = db.collection('cuentas');
+                collection.count(function(err, result) {
+                    if (err) {
+                        funcionCallback(null);
+                    } else {
+                        funcionCallback(result);
+                    }
+                    db.close();
+                });
+            }
+        });
+    },
     obtenerCuenta: function(criterio, funcionCallback) {
         this.mongo.MongoClient.connect(this.app.get('db'), function(err, db) {
             if (err) {
@@ -171,7 +188,7 @@ module.exports = {
                                 if (err) {
                                     funcionCallback(null);
                                 } else {
-                                    funcionCallback(movement.ouputIBAN);
+                                    funcionCallback(result);
                                 }
                             });
                         }
