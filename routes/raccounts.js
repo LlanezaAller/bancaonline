@@ -102,7 +102,7 @@ module.exports = function(app, swig, gestorBD) {
         let controlDigit = 99;
         let accountNumber;
 
-        gestorBD.contarCuentas(function() {
+        gestorBD.contarCuentas(function(result) {
             if (result == null) {
                 res.redirect("/newAccount?mensaje=Error al registrar usuario")
             } else {
@@ -114,7 +114,7 @@ module.exports = function(app, swig, gestorBD) {
     }
 
     function completeNumber(obj) {
-        while (obj.value.length < 10)
+        while (obj.toString().length < 10)
             obj.value = '0' + obj.value;
     }
 }

@@ -1,111 +1,71 @@
-{% extends "base.html" %} 
-
-{% block titulo %} Registrar usuario {% endblock %} 
-
-
-
-  {% block scripts %}  
+{% extends "base.html" %} {% block titulo %} Registrar usuario {% endblock %} {% block scripts %}
 
 <script>
-function mostrarLimite(){
-	var div = document.getElementById("limite");
-	if(document.getElementById("quieroLimite").checked){
-		div.style.display = "block";
-	}else{
-		div.style.display = "none";
-	}
-}
+    function mostrarLimite() {
+        var div = document.getElementById("limite");
+        if (document.getElementById("quieroLimite").checked) {
+            div.style.display = "block";
+        } else {
+            div.style.display = "none";
+        }
+    }
 </script>
 
 <script>
-function tipoCuenta(){
-	
-	var c1 = document.getElementById("credito");
-	var c2 = document.getElementById("debito");
-	var c3 = document.getElementById("monedero");
-	
-	var limite = document.getElementById("quieroLimite");
-	var limitetxt = document.getElementById("limit");
-	
-	var cont = false;
-	
-	if(!c1.checked && !c2.checked && !c3.checked){
-		document.getElementById("eligeTg").style.display = "block";
-	}
-	else{
-		document.getElementById("eligeTg").style.display = "none";
-		
-		if(limite.checked && ($("#limit").val() === '0' || $("#limit").val() === '')){
-			document.getElementById("eligeLim").style.display = "block";
-		}
-		else{
-			document.getElementById("eligeLim").style.display = "none";
-			cont = true;
-		}
-	}
-	
-	if(c1.checked){
-		document.getElementById("accountType").value = "credito"
-	}
-	else if(c2.checked){
-		document.getElementById("accountType").value = "debito"
-	}
-	else if(c3.checked){
-		document.getElementById("accountType").value = "monedero"
-	}
-	
-	
+    function tipoCuenta() {
+        var limite = document.getElementById("quieroLimite");
+        var limitetxt = document.getElementById("limit");
 
-	return cont;
-}
+        var cont = false;
 
+        if (limite.checked && ($("#limit").val() === '0' || $("#limit").val() === '')) {
+            document.getElementById("eligeLim").style.display = "block";
+        } else {
+            document.getElementById("eligeLim").style.display = "none";
+            cont = true;
+        }
+
+        return cont;
+    }
 </script>
 
 
 
 
-  {% endblock %}
-  
-  {% block contenido_principal %}
-  
-<form class="form-horizontal" onsubmit="return tipoCuenta()">
+{% endblock %} {% block contenido_principal %}
 
-	<div>
+<form class="form-horizontal" method="POST" action="/account" onsubmit="return tipoCuenta()">
 
-			<div class="radio">
-				<h2> Tipo de tarjeta </h2>
-		  		<label><input type="radio" id="credito" name="radio">Credito</label>
-			</div>
-			<div class="radio">
-			 	<label><input type="radio" id="debito" name="radio">Debito</label>
-			</div>
-			<div class="radio">
-			  	<label><input type="radio" id="monedero" name="radio">Monedero</label>
-			</div>
+    <div>
 
-		<div class="alert alert-danger" id="eligeTg" style="display:none;" >
-			Elija un tipo de tarjeta
-		</div>
-		
-		  	<div class="checkbox">
-  		<label><input type="checkbox" id="quieroLimite" value="" onchange="mostrarLimite()" onclick="mostrarLimite()">Deseo tener un limite en la tarjeta</label>
-  		<div id="limite" style="display:none;">Limite: <input type="number" name="limit" id="limit"> &euro;</div>
-  		<div class="alert alert-danger" id="eligeLim" style="display:none;">
-			Introduzca un limite
-		</div>
-	</div>
-	</div>
-  <p id="accountType"></p>
+        <div class="radio">
+            <h2> Tipo de tarjeta </h2>
+            <label><input type="radio" value="credito" name="accountType" checked="checked">Credito</label>
+        </div>
+        <div class="radio">
+            <label><input type="radio" value="debito" name="accountType">Debito</label>
+        </div>
+        <div class="radio">
+            <label><input type="radio" value="monedero" name="accountType">Monedero</label>
+        </div>
 
+        <div class="alert alert-danger" id="eligeTg" style="display:none;">
+            Elija un tipo de tarjeta
+        </div>
 
-
-<input id="accountType" name="accountType" style="display:none;">
-
-  <div class="form-group"> 
-    <div class="col-sm-offset-2 col-sm-10">
-      <button type="submit" class="btn btn-default">Crear cuenta</button>
+        <div class="checkbox">
+            <label><input type="checkbox" id="quieroLimite" value="" onchange="mostrarLimite()" onclick="mostrarLimite()">Deseo tener un limite en la tarjeta</label>
+            <div id="limite" style="display:none;">Limite: <input type="number" name="limit" id="limit"> &euro;</div>
+            <div class="alert alert-danger" id="eligeLim" style="display:none;">
+                Introduzca un limite
+            </div>
+        </div>
     </div>
-  </div>
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-default">Crear cuenta</button>
+        </div>
+    </div>
 </form>
 {% endblock %}
-

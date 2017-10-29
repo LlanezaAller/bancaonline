@@ -99,7 +99,7 @@ module.exports = {
                 funcionCallback(null);
             } else {
                 var collection = db.collection('cuentas');
-                collection.update({ accounts: { $elemMatch: { criterio } } }, { $set: account }, function(err, result) {
+                collection.insert(account, function(err, result) {
                     if (err) {
                         funcionCallback(null);
                     } else {
