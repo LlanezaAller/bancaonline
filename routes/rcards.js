@@ -27,48 +27,50 @@ module.exports = function(app, swig, gestorBD) {
 
         console.log("Comienza proceso de creación de tarjetas");
 
-        createCardNumber();
-        var card = {
-            ownerDNI: req.session.user,
-            referenceAccountIBAN: req.body.referenceAccount,
-            referenceAccountID: req.params.accountID,
-            cardNumber: cardNumber,
-            expirationDate: req.body.expirationDate,
-            status: "activa",
-            cash: 0,
-            type: req.body.cardType,
-            limit: req.body.limit
-        }
+        createCardNumber(function(result) {
 
-        accountIBAN = undefined;
-        console.log("Tarjeta:" + card.cardNumber + " DNI del dueño:" + card.ownerDNI + "\nStatus:" + card.status);
-        var criterio = { "_id": gestorBD.mongo.ObjectID(req.params.id) };
-
-        gestorBD.obtenerCuenta(criterio, function(cuentas) {
-            if (cuentas == null) {
-                res.send("Error al obtener la cuenta");
-            } else {
-                gestorBD.crearTarjeta(card, function(id) {
-                    if (id == null) {
-                        res.redirect("/newAccount?mensaje=Error al registrar usuario")
-                    } else {
-                        res.redirect("/account/" + id.ops[0].referenceAccountID + "?mensaje=Tarjeta creada");
-                    }
-                });
+            var card = {
+                ownerDNI: req.session.user,
+                referenceAccountIBAN: req.body.referenceAccount,
+                referenceAccountID: req.params.accountID,
+                cardNumber: result,
+                expirationDate: req.body.expirationDate,
+                status: "activa",
+                cash: 0,
+                type: req.body.cardType,
+                limit: req.body.limit
             }
+
+            accountIBAN = undefined;
+            console.log("Tarjeta:" + card.cardNumber + " DNI del dueño:" + card.ownerDNI + "\nStatus:" + card.status);
+            var criterio = { "_id": gestorBD.mongo.ObjectID(req.params.id) };
+
+            gestorBD.obtenerCuenta(criterio, function(cuentas) {
+                if (cuentas == null) {
+                    res.send("Error al obtener la cuenta");
+                } else {
+                    gestorBD.crearTarjeta(card, function(id) {
+                        if (id == null) {
+                            res.redirect("/newAccount?mensaje=Error al registrar usuario")
+                        } else {
+                            res.redirect("/account/" + id.ops[0].referenceAccountID + "?mensaje=Tarjeta creada");
+                        }
+                    });
+                }
+            });
         });
+
     });
 
     //Methods
 
-    let cardNumber;
 
     function createCardNumber() {
-        gestorBD.contartarjetas(function(result) {
+        gestorBD.contarTarjetass(function(result) {
             if (result == null) {
-                res.redirect("/newCard?mensaje=Error al registrar usuario")
+                res.redirect("/newAccount?mensaje=Error al crear tarjetas");
             } else {
-                cardNumber = completeNumber(result);
+                functionCallback(completeNumber(result));
             }
         });
     }
