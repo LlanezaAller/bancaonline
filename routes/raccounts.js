@@ -31,6 +31,21 @@ module.exports = function(app, swig, gestorBD) {
         });
     })
 
+    app.get('/account/:id/makeAMove', function(req, res) {
+        var criterio = { "_id": gestorBD.mongo.ObjectID(req.params.id) };
+
+        gestorBD.obtenerCuenta(criterio, function(cuentas) {
+            if (cuentas == null) {
+                res.send("Error al obtener la cuenta");
+            } else {
+                var respuesta = swig.renderFile('views/movimiento.html', {
+                    cuenta: cuentas[0]
+                });
+                res.send(respuesta);
+            }
+        });
+    })
+
 
     app.get("/account", app.get('cors'), function(req, res) {
         var respuesta = swig.renderFile('views/crearCuenta.html', {});
