@@ -41,31 +41,6 @@ jQuery(document).ready(function($) {
 	</table>
 </div>
 
-<!-- Agregar Tarjetas -->
-<div class="table-responsive">
-	<table class="table table-hover">
-		<thead>
-			<tr>
-				<th>Numero de tarjeta</th>
-				<th>Tipo</th>
-				<th>Dinero</th>
-				<th class="col-md-1"></th>
-			</tr>
-		</thead>
-		<tbody>
-		{% for card in cards %}
-			<tr>
-				<td>{{ card.cardNumber }}</td>
-				<td>{{ card.cash }}</td>
-				<td> Modificar </td>
-				<td> Operaciones </td>
-				<td> Dar de baja </td>
-			</tr>
-		{% endfor %}
-		</tbody>
-	</table>
-</div>
-
 <form action="/modPerfil" method="get">
     <input type="submit" value="Modificar perfil" 
          name="Submit" id="frm1_submit" />
