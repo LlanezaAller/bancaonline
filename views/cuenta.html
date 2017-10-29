@@ -21,6 +21,14 @@
    }
    
    </script>
+    
+   <script>
+	jQuery(document).ready(function($) {
+	    $(".clickable-row").click(function() {
+	        window.location = $(this).data("href");
+	    });
+	});
+	</script>
 {% endblock %} 
 
  {% block contenido_principal %}
@@ -35,14 +43,44 @@
 			</tr>
 		</thead>
 		<tbody>
+		<tr>
+		{% for move in moves %}
 				<td>{{ cuenta.inputIBAN }}</td>
 				<td>{{ cuenta.outputIBAN }}</td>
 				<td>{{ cuenta.amount }}</td>
 			</tr>
+		{% endfor %}
 		</tbody>
 	</table>
 </div>
 
+ <div class="table-responsive">
+	<table class="table table-hover" id="tarjetas">
+		<thead>
+			<tr>
+				<th>Numero tarjeta</th>
+				<th>Saldo</th>
+				<th>Tipo</th>
+				<th class="col-md-1"></th>
+			</tr>
+		</thead>
+		<tbody>
+		{% for tarjeta in tarjetas %}
+		<tr class='clickable-row' data-href='/account/{{account._id.toString()}}/{{tarjeta._id.toString()}}'>
+				<td>{{ tarjeta.inputIBAN }}</td>
+				<td>{{ tarjeta.cash }}</td>
+				<td>{{ tarjeta.type }}</td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+</div>
+
+
+ <form action="/account/{{cuenta._id.toString()}}/tarjeta" method="get">
+    <input type="submit" value="A&#241;adir una tarjeta" 
+         name="Submit" id="frm1_submit" />
+</form>
 
 
  <form action="/account/{{cuenta._id.toString()}}/makeAMove" method="get">
