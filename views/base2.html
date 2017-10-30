@@ -6,7 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script src="http://www.parsecdn.com/js/parse-1.4.2.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  
   {% block scripts %}  {% endblock %}
 </head>
 <body>
@@ -25,8 +28,8 @@
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav navbar-right">
-	    <li><a href="/principal"><span class="glyphicon glyphicon-user"></span>Mis cuentas</a></li>
-        <li><a href="/desconectar"><span class="glyphicon glyphicon-log-out"></span> Desconectarse</a></li>
+	    <li><a href="/registrarse"><span class="glyphicon glyphicon-user"></span> Registrate</a></li>
+        <li id="logout"><a href="/identificarse"><span class="glyphicon glyphicon-log-in"></span> Identifícate</a></li>
       </ul>
     </div>
   </div>
