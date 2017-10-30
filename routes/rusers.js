@@ -60,15 +60,11 @@ module.exports = function(app, swig, gestorBD) {
 
     app.post('/modPerfil', app.get('cors'), function(req, res) {
     	if(req.session.user != null){
-	        if (req.body.pwd1 != req.body.pwd2) {
-	            console.log("Contraseñas no coinciden");
-	            res.redirect("/registrarse?mensaje=Error al crear el usuario, passwords no coincidentes")
-	        } else {
 	            console.log("Comienza proceso de registro");
 	            var seguro = app.get("crypto").createHmac('sha256', app.get('clave'))
 	                .update(req.body.pwd1).digest('hex');
 	
-	            var criterio = { ownerDNI: req.session.user };
+	            var criterio = { dni : req.session.user };
 	
 	            var usuario = {
 	                name: req.body.name[0],
@@ -94,14 +90,12 @@ module.exports = function(app, swig, gestorBD) {
 	                    res.redirect("/principal?mensaje=Datos modificados correctamente");
 	                }
 	            });
-	        }
     }else{
     	res.redirect("/identificarse");
     }
     });
 
-    app.post("/identificarse", function(req, res) {
-        //app.post("/identificarse", bruteforce.prevent, function(req, res) {
+        app.post("/identificarse", bruteforce.prevent, function(req, res) {
         var seguro = app.get("crypto").createHmac('sha256', app.get('clave'))
             .update(req.body.pwd).digest('hex');
 

@@ -15,16 +15,16 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 var corsOptions = {
     origin: '*',
-    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204 
+    optionsSuccessStatus: 200
 }
 
 
 
 //TODO: Reemplazar por puerto de heroku con su variable de sistema
 //app.set('port', process.env.PORT || 8081);
-//app.set('db','mongodb://dpiu:dpiu1234@ds125914.mlab.com:25914/bancaonline');
+app.set('db','mongodb://dpiu:dpiu1234@ds125914.mlab.com:25914/bancaonline');
 app.set('port', 8081);
-app.set('db', 'mongodb://localhost:27017/bancaonline');
+//app.set('db', 'mongodb://localhost:27017/bancaonline');
 app.set('cors', cors(corsOptions));
 app.set('clave', '8AEA3EAD0B4900E11FFE258DD5EBC068AC3667BD5016BD7079D095C16CCF55C4');
 app.set('crypto', crypto);
@@ -49,8 +49,6 @@ gestorBD.init(app, mongo);
 //Rutas/controladores por lógica
 require("./routes/rusers.js")(app, swig, gestorBD);
 require("./routes/raccounts.js")(app, swig, gestorBD);
-require("./routes/rcards.js")(app, swig, gestorBD);
-
 // lanzar el servidor
 app.listen(app.get('port'), function() {
     console.log("Servidor activo");

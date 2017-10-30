@@ -12,9 +12,10 @@ jQuery(document).ready(function($) {
         window.location = $(this).data("href");
     });
 });
+
 </script>
 
-	<script>
+<script>
 function busqueda() {
 	  var input, filter, table, tr, td, i;
 	  input = document.getElementById("busqueda");
@@ -52,6 +53,7 @@ function busqueda() {
 			<tr>
 				<th>IBAN</th>
 				<th>Dinero</th>
+				<th>Limite</th>
 				<th class="col-md-1"></th>
 			</tr>
 		</thead>
@@ -60,6 +62,7 @@ function busqueda() {
 			<tr class='clickable-row' data-href='/account/{{account._id.toString()}}'>
 				<td>{{ account.IBAN }}</td>
 				<td>{{ account.cash }} &#8364;</td>
+				<td>{{ account.limit}}- &#8364;</td>
 			</tr>
 		{% endfor %}
 		</tbody>
