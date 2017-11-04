@@ -27,6 +27,17 @@
 	    $(".clickable-row").click(function() {
 	        window.location = $(this).data("href");
 	    });
+	    
+	    $(function(){
+    	  $("tr").each(function(){
+    	    var col_val = $(this).find("td:eq(2)").text();
+    	    if(!col_val.startsWith("Cantidad")){
+	    	    if (parseInt(col_val, 10) >= 1000){
+	    	      $(this).addClass('highlight'); 
+	    	    }
+    	    }
+    	  });
+    	});
 	});
 	</script>
 	
@@ -53,6 +64,13 @@ function busqueda() {
 	}
 </script>
 
+<style>
+   .highlight{
+    background-color:#ccff99;
+}
+
+</style>
+
 {% endblock %} 
 
  {% block contenido_principal %}
@@ -68,7 +86,7 @@ function busqueda() {
 			<tr>
 				<th>Cuenta emisora</th>
 				<th>Cuenta receptora</th>
-				<th>Cantidad</th>
+				<th>Cantidad (&#8364;)</th>
 				<th class="col-md-1"></th>
 			</tr>
 		</thead>
@@ -77,7 +95,7 @@ function busqueda() {
 		{% for move in cuenta.moves %}
 				<td>{{ move.outputIBAN }}</td>
 				<td>{{ move.inputIBAN }}</td>
-				<td>{{ move.amount }} &#8364;</td>
+				<td><b>{{ move.amount }}</b> </td>
 			</tr>
 		{% endfor %}
 		</tbody>

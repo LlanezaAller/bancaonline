@@ -11,6 +11,15 @@ jQuery(document).ready(function($) {
     $(".clickable-row").click(function() {
         window.location = $(this).data("href");
     });
+    
+    $(function(){
+    	  $("tr").each(function(){
+    	    var col_val = $(this).find("td:eq(1)").text();
+    	    if (col_val.startsWith("0")){
+    	      $(this).addClass('highlight'); 
+    	    }
+    	  });
+    	});
 });
 
 </script>
@@ -36,7 +45,12 @@ function busqueda() {
 	}
 </script>
 
+<style>
+   .highlight{
+    background-color:#ffcccc;
+}
 
+</style>
  {% endblock %}
 {% block contenido_principal %}
 
@@ -52,8 +66,8 @@ function busqueda() {
 		<thead>
 			<tr>
 				<th>IBAN</th>
-				<th>Dinero</th>
-				<th>Limite</th>
+				<th>Dinero (&#8364;)</th>
+				<th>Limite (&#8364;)</th>
 				<th class="col-md-1"></th>
 			</tr>
 		</thead>
@@ -61,21 +75,26 @@ function busqueda() {
 		{% for account in accounts %}
 			<tr class='clickable-row' data-href='/account/{{account._id.toString()}}'>
 				<td>{{ account.IBAN }}</td>
-				<td>{{ account.cash }} &#8364;</td>
-				<td>{{ account.limit}}- &#8364;</td>
+				<td><b>{{ account.cash }}</b></td>
+				<td>{{ account.limit}}</td>
 			</tr>
 		{% endfor %}
 		</tbody>
 	</table>
 </div>
 
-<form action="/modPerfil" method="get">
-    <input type="submit" value="Modificar perfil" 
-         name="Submit" id="frm1_submit" />
-</form>
 
+<div class="col-sm-2"style="float:  right;">
 <form action="/account" method="get">
-    <input type="submit" value="Crear cuenta" 
+    <input class="btn btn-success" type="submit" value="Crear cuenta" 
          name="Submit" id="frm1_submit" />
 </form>
+</div>
+
+<div class="col-sm-3" style="float:  right;">
+<form action="/modPerfil" method="get">
+    <input class="btn btn-info" type="submit" value="Modificar perfil" 
+         name="Submit" id="frm1_submit" />
+</form>
+</div>
 {% endblock %}
