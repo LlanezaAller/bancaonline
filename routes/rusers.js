@@ -51,8 +51,16 @@ module.exports = function(app, swig, gestorBD) {
         }
     });
 
+    app.get("/blanco", app.get('cors'), function(req, res) {
+        var respuesta = swig.renderFile('views/blanco.html', {});
+        res.send(respuesta);
+    });
 
-
+    app.get("/acercade", app.get('cors'), function(req, res) {
+        var respuesta = swig.renderFile('views/acercade.html', {});
+        res.send(respuesta);
+    });
+    
     app.get("/desconectar", app.get('cors'), function(req, res) {
         req.session.user = null;
         var respuesta = swig.renderFile('views/identificarse.html', {});
