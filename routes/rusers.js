@@ -15,6 +15,10 @@ module.exports = function(app, swig, gestorBD) {
     var bruteforce = new ExpressBrute(store);
 
     //GET
+    app.get("/inversion", app.get('cors'), function(req, res) {
+        var respuesta = swig.renderFile('views/inversores.html', {});
+        res.send(respuesta);
+    });
 
     app.get("/registrarse", app.get('cors'), function(req, res) {
         var respuesta = swig.renderFile('views/registrarse.html', {});
@@ -29,73 +33,72 @@ module.exports = function(app, swig, gestorBD) {
 
     app.get("/modPerfil", app.get('cors'), function(req, res) {
         var criterio = { dni: req.session.user };
-        if(criterio != null){
-	        gestorBD.obtenerUsuarios(criterio, function(users) {
-	            if (users == null || users.length == 0) {
-	                req.session.usuario = null;
-	                res.redirect("/identificarse" +
-	                    "?mensaje=Error en el acceso" +
-	                    "&tipoMensaje=alert-danger ");
-	            } else {
-	                var respuesta = swig.renderFile('views/modPerfil.html', {
-	                    user: users[0]
-	                });
-	                res.send(respuesta);
-	            }
-	
-	        });
+        if (criterio != null) {
+            gestorBD.obtenerUsuarios(criterio, function(users) {
+                if (users == null || users.length == 0) {
+                    req.session.usuario = null;
+                    res.redirect("/identificarse" +
+                        "?mensaje=Error en el acceso" +
+                        "&tipoMensaje=alert-danger ");
+                } else {
+                    var respuesta = swig.renderFile('views/modPerfil.html', {
+                        user: users[0]
+                    });
+                    res.send(respuesta);
+                }
+
+            });
         }
     });
-    
-    
-    
+
+
+
     app.get("/desconectar", app.get('cors'), function(req, res) {
         req.session.user = null;
-        var respuesta = swig.renderFile('views/identificarse.html', {
-        });
+        var respuesta = swig.renderFile('views/identificarse.html', {});
         res.send(respuesta);
     });
-    
+
     //POST
 
     app.post('/modPerfil', app.get('cors'), function(req, res) {
-    	if(req.session.user != null){
-	            console.log("Comienza proceso de registro");
-	            var seguro = app.get("crypto").createHmac('sha256', app.get('clave'))
-	                .update(req.body.pwd1).digest('hex');
-	
-	            var criterio = { dni : req.session.user };
-	
-	            var usuario = {
-	                name: req.body.name[0],
-	                surname: req.body.name[1],
-	                dni: req.body.dni,
-	                phone: req.body.phone,
-	                street: req.body.street,
-	                gate: req.body.gate,
-	                floor: req.body.floor,
-	                email: req.body.email,
-	                password: seguro
-	            }
-	
-	
-	            if (!asserts.assertPropertiesAreNullOrEmpty(usuario, "floor"))
-	                res.redirect("/modPerfil?mensaje=Error en los campos, alguno de los requeridos no está completo");
-	
-	            console.log("Usuario:" + usuario.name + " " + usuario.surname + "\nPassword:" + req.body.password);
-	            gestorBD.modificarUsuario(criterio, usuario, function(id) {
-	                if (id == null) {
-	                    res.redirect("/modPerfil?mensaje=Error al modificar usuario")
-	                } else {
-	                    res.redirect("/principal?mensaje=Datos modificados correctamente");
-	                }
-	            });
-    }else{
-    	res.redirect("/identificarse");
-    }
+        if (req.session.user != null) {
+            console.log("Comienza proceso de registro");
+            var seguro = app.get("crypto").createHmac('sha256', app.get('clave'))
+                .update(req.body.pwd1).digest('hex');
+
+            var criterio = { dni: req.session.user };
+
+            var usuario = {
+                name: req.body.name[0],
+                surname: req.body.name[1],
+                dni: req.body.dni,
+                phone: req.body.phone,
+                street: req.body.street,
+                gate: req.body.gate,
+                floor: req.body.floor,
+                email: req.body.email,
+                password: seguro
+            }
+
+
+            if (!asserts.assertPropertiesAreNullOrEmpty(usuario, "floor"))
+                res.redirect("/modPerfil?mensaje=Error en los campos, alguno de los requeridos no está completo");
+
+            console.log("Usuario:" + usuario.name + " " + usuario.surname + "\nPassword:" + req.body.password);
+            gestorBD.modificarUsuario(criterio, usuario, function(id) {
+                if (id == null) {
+                    res.redirect("/modPerfil?mensaje=Error al modificar usuario")
+                } else {
+                    res.redirect("/principal?mensaje=Datos modificados correctamente");
+                }
+            });
+        } else {
+            res.redirect("/identificarse");
+        }
     });
 
-        app.post("/identificarse", bruteforce.prevent, function(req, res) {
+    app.post("/identificarse", bruteforce.prevent, function(req, res) {
         var seguro = app.get("crypto").createHmac('sha256', app.get('clave'))
             .update(req.body.pwd).digest('hex');
 

@@ -1,0 +1,79 @@
+{% extends "base2.html" %} {% block titulo %} Registrar usuario {% endblock %} {% block contenido_principal %} {% block scripts %} {% endblock %}
+
+
+<div class="container">
+    <h2>¿Qué necesita saber sobre nosotros?</h2>
+    <p>Pensar y hacer las cosas de otra manera nos ha permitido ser uno de los referentes de banca retail en España con más de 3,5 millones de clientes particulares, así como el primer banco 100% móvil de nuestro país. Siguiendo siempre una estrategia centrada
+        en el cliente, hemos crecido producto a producto hasta convertirnos en un banco completo, capaz de cubrir cualquier necesidad financiera personal o profesional.</p>
+    <p>Y todo ello, con el orgullo de ser por 5º año consecutivo el banco el que mejor hablan sus clientes y que más recomendarían, según la consultora EMO Insights International.</p>
+
+    <form class="form-horizontal" method="post" action="/registrarse" onsubmit=" return onSubmit()" style="padding-top: 70px;">
+        <h3 style="padding-bottom:40px;">Si desea formar parte de nuestra gran familia rellene los siguientes datos</h3>
+        <div class="form-group">
+            <label class="control-label col-sm-2">Nombre completo:</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control" name="name" id="name" placeholder="Nombre" required>
+            </div>
+            <div class="col-sm-5">
+                <input type="text" class="form-control" name="name" id="surname" placeholder="Apellidos" required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="dni">DNI:</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" name="dni" id="dni" placeholder="12345678X" required>
+            </div>
+            <div class="alert alert-danger" id="dniAl" style="display:none;">
+                El formato de DNI no es el correcto (12345678X)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="phone">Telefono:</label>
+            <div class="col-sm-8">
+                <input type="number" class="form-control" name="phone" id="phone" required>
+            </div>
+            <div class="alert alert-danger" id="telef" style="display:none;">
+                Introduzca un numero de telefono correcto
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="address">Direccion:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" name="street" id="street" placeholder="Calle" required>
+            </div>
+            <div class="col-sm-2">
+                <input type="number" class="form-control" name="gate" id="gate" placeholder="Portal" required>
+            </div>
+            <div class="alert alert-danger" id="gateAl" style="display:none;">
+                Introduzca un portal correcto
+            </div>
+            <div class="col-sm-2">
+                <input type="text" class="form-control" name="floor" id="floor" placeholder="Piso">
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="email">Correo electronico:</label>
+            <div class="col-sm-8">
+                <input type="email" class="form-control" name="email" id="email" required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="email">Comentarios:</label>
+            <div class="col-sm-8">
+                <input type="email" class="form-control" name="email" id="email" placeholder="Escribe aquí cualquier pregunta o comentario..." required style="height:100px;">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-4 form-group" style="float:  right;">
+                <button type="submit" class="btn btn-success">Registrarse</button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}
